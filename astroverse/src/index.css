@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #020617;
+  color: white;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Space background */
+
+.space-bg {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.18), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.14), transparent 25%),
+    radial-gradient(circle at 50% 90%, rgba(8, 145, 178, 0.1), transparent 25%),
+    #020617;
+}
+
+.star-field {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, white, transparent),
+    radial-gradient(1px 1px at 40% 70%, white, transparent),
+    radial-gradient(1px 1px at 70% 20%, white, transparent),
+    radial-gradient(1px 1px at 85% 65%, white, transparent),
+    radial-gradient(1px 1px at 55% 45%, white, transparent),
+    radial-gradient(1px 1px at 10% 80%, white, transparent);
+  background-size: 220px 220px;
+}
+
+/* Glass cards */
+
+.glass {
+  background: rgba(15, 23, 42, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.glass-hover {
+  transition: 0.3s ease;
+}
+
+.glass-hover:hover {
+  transform: translateY(-5px);
+  border-color: rgba(167, 139, 250, 0.35);
+  background: rgba(30, 41, 59, 0.68);
+}
+
+/* Gradient text */
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #c084fc,
+    #818cf8,
+    #38bdf8
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
