@@ -58,7 +58,7 @@ function Login() {
         "astroverseUser",
         JSON.stringify(result.user)
       );
-
+window.dispatchEvent(new Event("astroverseAuthChanged"));
       setSuccess(true);
       setMessage("Login successful! Welcome to AstroVerse.");
 
