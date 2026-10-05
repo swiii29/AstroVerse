@@ -12,14 +12,18 @@ import {
   Users,
 } from "lucide-react";
 
+import { Link } from "react-router-dom";
+
 function LunaBase() {
   return (
     <main className="min-h-screen bg-[#050816] text-white">
 
       {/* ================= HERO ================= */}
+
       <section className="relative min-h-[720px] overflow-hidden">
 
         {/* External NASA Video Background */}
+
         <video
           autoPlay
           muted
@@ -35,6 +39,7 @@ function LunaBase() {
         </video>
 
         {/* Video Overlay */}
+
         <div className="absolute inset-0 bg-black/55" />
 
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-black/10" />
@@ -42,23 +47,33 @@ function LunaBase() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#050816] via-transparent to-black/20" />
 
         {/* Hero Content */}
+
         <div className="relative mx-auto flex min-h-[720px] max-w-7xl items-end px-6 pb-20 pt-40">
 
           <div className="max-w-4xl">
 
             <div className="mb-6 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-purple-300">
+
               <Moon size={18} />
+
               LunaBase Mission Control
+
             </div>
 
             <h1 className="text-6xl font-semibold leading-[0.95] tracking-tight sm:text-7xl lg:text-9xl">
+
               Build
+
               <br />
+
               humanity's
+
               <br />
+
               <span className="text-purple-300">
                 lunar future.
               </span>
+
             </h1>
 
             <p className="mt-8 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
@@ -68,10 +83,10 @@ function LunaBase() {
 
             <div className="mt-9 flex flex-wrap gap-3">
 
-              <button
-                onClick={() => {
-                  window.location.href = "/missions";
-                }}
+              {/* OPEN MISSION CONTROL */}
+
+              <Link
+                to="/missions"
                 className="group flex items-center gap-3 rounded-full bg-white px-6 py-3.5 font-semibold text-slate-950 transition hover:bg-purple-100"
               >
                 Open Mission Control
@@ -80,7 +95,9 @@ function LunaBase() {
                   size={18}
                   className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
                 />
-              </button>
+              </Link>
+
+              {/* VIEW BASE STATUS */}
 
               <button
                 onClick={() => {
@@ -105,6 +122,7 @@ function LunaBase() {
 
 
       {/* ================= OVERVIEW ================= */}
+
       <section className="border-y border-white/10 bg-[#050816]">
 
         <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/10 sm:grid-cols-4">
@@ -139,6 +157,7 @@ function LunaBase() {
 
 
       {/* ================= RESOURCES ================= */}
+
       <section
         id="resources"
         className="mx-auto max-w-7xl px-6 py-24"
@@ -164,8 +183,11 @@ function LunaBase() {
           </div>
 
           <div className="flex items-center gap-2 text-sm text-emerald-400">
+
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
+
             All critical systems operational
+
           </div>
 
         </div>
@@ -211,6 +233,7 @@ function LunaBase() {
 
 
       {/* ================= HABITAT ================= */}
+
       <section className="mx-auto max-w-7xl px-6 pb-24">
 
         <div className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1020] lg:grid-cols-2">
@@ -254,9 +277,13 @@ function LunaBase() {
 
 
             <h2 className="mt-6 text-4xl font-semibold leading-tight sm:text-5xl">
+
               A new home
+
               <br />
+
               beyond Earth.
+
             </h2>
 
 
@@ -303,6 +330,7 @@ function LunaBase() {
 
 
       {/* ================= INFRASTRUCTURE ================= */}
+
       <section className="border-y border-white/10 bg-[#080c19]">
 
         <div className="mx-auto max-w-7xl px-6 py-24">
@@ -348,6 +376,7 @@ function LunaBase() {
 
 
       {/* ================= CTA ================= */}
+
       <section className="mx-auto max-w-7xl px-6 py-24">
 
         <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-purple-950/70 via-[#11152a] to-[#050816] p-8 sm:p-12 lg:p-16">
@@ -369,15 +398,17 @@ function LunaBase() {
               destinations and lunar operations.
             </p>
 
-            <button
-              onClick={() => {
-                window.location.href = "/missions";
-              }}
+
+            {/* EXPLORE MISSIONS */}
+
+            <Link
+              to="/missions"
               className="mt-8 flex items-center gap-3 rounded-full bg-white px-6 py-3.5 font-semibold text-slate-950 transition hover:bg-purple-100"
             >
               Explore Missions
+
               <ArrowUpRight size={18} />
-            </button>
+            </Link>
 
           </div>
 
@@ -387,6 +418,7 @@ function LunaBase() {
 
 
       {/* ================= FOOTER ================= */}
+
       <footer className="border-t border-white/10 px-6 py-8">
 
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-sm text-slate-500 sm:flex-row">
@@ -411,7 +443,9 @@ function LunaBase() {
 /* ================= STAT ================= */
 
 function Stat({ icon, value, label }) {
+
   return (
+
     <div className="flex flex-col gap-3 px-6 py-7 sm:px-8">
 
       <div className="text-purple-300">
@@ -427,6 +461,7 @@ function Stat({ icon, value, label }) {
       </div>
 
     </div>
+
   );
 }
 
@@ -440,7 +475,9 @@ function ResourceCard({
   status,
   description,
 }) {
+
   return (
+
     <div className="group rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition duration-300 hover:-translate-y-1 hover:border-purple-400/30 hover:bg-white/[0.06]">
 
       <div className="flex items-start justify-between">
@@ -489,6 +526,7 @@ function ResourceCard({
       </div>
 
     </div>
+
   );
 }
 
@@ -496,7 +534,9 @@ function ResourceCard({
 /* ================= ACTIVITY ITEM ================= */
 
 function ActivityItem({ icon, title, status }) {
+
   return (
+
     <div className="flex items-center justify-between border-b border-white/10 pb-5 last:border-0 last:pb-0">
 
       <div className="flex items-center gap-4">
@@ -516,6 +556,7 @@ function ActivityItem({ icon, title, status }) {
       </span>
 
     </div>
+
   );
 }
 
@@ -523,7 +564,9 @@ function ActivityItem({ icon, title, status }) {
 /* ================= FEATURE CARD ================= */
 
 function FeatureCard({ icon, title, text }) {
+
   return (
+
     <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-7 transition duration-300 hover:-translate-y-1 hover:border-purple-400/30">
 
       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/10 text-purple-300">
@@ -539,13 +582,17 @@ function FeatureCard({ icon, title, text }) {
       </p>
 
       <div className="mt-6 flex items-center gap-2 text-sm text-purple-300">
+
         System active
+
         <ArrowUpRight size={15} />
+
       </div>
 
     </div>
-  );
-}
 
+  );
+
+}
 
 export default LunaBase;

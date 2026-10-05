@@ -5,7 +5,9 @@ const getObservations = async (req, res) => {
   try {
     const observations = await Observation.find({
       userId: req.user.id,
-    }).sort({ createdAt: -1 });
+    })
+      .populate("userId", "name email")
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -27,7 +29,9 @@ const getPublicObservations = async (req, res) => {
   try {
     const observations = await Observation.find({
       isPublic: true,
-    }).sort({ createdAt: -1 });
+    })
+      .populate("userId", "name email")
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -50,7 +54,7 @@ const getObservationById = async (req, res) => {
     const observation = await Observation.findOne({
       _id: req.params.id,
       userId: req.user.id,
-    });
+    }).populate("userId", "name email");
 
     if (!observation) {
       return res.status(404).json({
@@ -84,6 +88,7 @@ const createObservation = async (req, res) => {
       location,
       notes,
       visibility,
+      photo,
       isPublic,
     } = req.body;
 
@@ -108,13 +113,18 @@ const createObservation = async (req, res) => {
       location,
       notes,
       visibility,
+      photo: photo || "",
       isPublic: isPublic !== false,
     });
+
+    const populatedObservation = await Observation.findById(
+      observation._id
+    ).populate("userId", "name email");
 
     res.status(201).json({
       success: true,
       message: "Observation created successfully",
-      data: observation,
+      data: populatedObservation,
     });
   } catch (error) {
     console.error("Create observation error:", error);

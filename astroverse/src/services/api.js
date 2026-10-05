@@ -1,13 +1,39 @@
-const API_BASE_URL = "http://localhost:5001/api";
+const API_BASE_URL = "https://astroverse-9h7i.onrender.com/api";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("astroverseToken");
 
   return {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 };
+
+const parseResponse = async (response, defaultMessage) => {
+  const text = await response.text();
+
+  let result;
+
+  try {
+    result = JSON.parse(text);
+  } catch {
+    throw new Error(
+      response.ok
+        ? defaultMessage
+        : `Server error (${response.status}). Please try again.`
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(result.message || defaultMessage);
+  }
+
+  return result;
+};
+
+// ================================
+// CELESTIAL OBJECTS
+// ================================
 
 export const getCelestialObjects = async () => {
   try {
@@ -15,11 +41,10 @@ export const getCelestialObjects = async () => {
       `${API_BASE_URL}/celestial-objects`
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch celestial objects");
-    }
-
-    const result = await response.json();
+    const result = await parseResponse(
+      response,
+      "Failed to fetch celestial objects"
+    );
 
     return result.data;
   } catch (error) {
@@ -32,21 +57,20 @@ export const getCelestialObjects = async () => {
   }
 };
 
+// ================================
+// PUBLIC OBSERVATIONS
+// ================================
+
 export const getPublicObservations = async () => {
   try {
     const response = await fetch(
       `${API_BASE_URL}/observations/public`
     );
 
-    if (!response.ok) {
-      const result = await response.json();
-
-      throw new Error(
-        result.message || "Failed to fetch public observations"
-      );
-    }
-
-    const result = await response.json();
+    const result = await parseResponse(
+      response,
+      "Failed to fetch public observations"
+    );
 
     return result.data;
   } catch (error) {
@@ -59,6 +83,10 @@ export const getPublicObservations = async () => {
   }
 };
 
+// ================================
+// MY OBSERVATIONS
+// ================================
+
 export const getObservations = async () => {
   try {
     const response = await fetch(
@@ -68,15 +96,10 @@ export const getObservations = async () => {
       }
     );
 
-    if (!response.ok) {
-      const result = await response.json();
-
-      throw new Error(
-        result.message || "Failed to fetch observations"
-      );
-    }
-
-    const result = await response.json();
+    const result = await parseResponse(
+      response,
+      "Failed to fetch observations"
+    );
 
     return result.data;
   } catch (error) {
@@ -89,6 +112,10 @@ export const getObservations = async () => {
   }
 };
 
+// ================================
+// CREATE OBSERVATION
+// ================================
+
 export const createObservation = async (observation) => {
   try {
     const response = await fetch(
@@ -100,15 +127,10 @@ export const createObservation = async (observation) => {
       }
     );
 
-    if (!response.ok) {
-      const result = await response.json();
-
-      throw new Error(
-        result.message || "Failed to create observation"
-      );
-    }
-
-    const result = await response.json();
+    const result = await parseResponse(
+      response,
+      "Failed to create observation"
+    );
 
     return result.data;
   } catch (error) {
@@ -121,6 +143,10 @@ export const createObservation = async (observation) => {
   }
 };
 
+// ================================
+// DELETE OBSERVATION
+// ================================
+
 export const deleteObservation = async (id) => {
   try {
     const response = await fetch(
@@ -131,15 +157,10 @@ export const deleteObservation = async (id) => {
       }
     );
 
-    if (!response.ok) {
-      const result = await response.json();
-
-      throw new Error(
-        result.message || "Failed to delete observation"
-      );
-    }
-
-    return await response.json();
+    return await parseResponse(
+      response,
+      "Failed to delete observation"
+    );
   } catch (error) {
     console.error(
       "Error deleting observation:",
@@ -150,17 +171,20 @@ export const deleteObservation = async (id) => {
   }
 };
 
+// ================================
+// LUNAR BASES
+// ================================
+
 export const getLunarBases = async () => {
   try {
     const response = await fetch(
       `${API_BASE_URL}/lunar-bases`
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch lunar bases");
-    }
-
-    const result = await response.json();
+    const result = await parseResponse(
+      response,
+      "Failed to fetch lunar bases"
+    );
 
     return result.data;
   } catch (error) {
@@ -173,17 +197,20 @@ export const getLunarBases = async () => {
   }
 };
 
+// ================================
+// MISSIONS
+// ================================
+
 export const getMissions = async () => {
   try {
     const response = await fetch(
       `${API_BASE_URL}/missions`
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch missions");
-    }
-
-    const result = await response.json();
+    const result = await parseResponse(
+      response,
+      "Failed to fetch missions"
+    );
 
     return result.data;
   } catch (error) {

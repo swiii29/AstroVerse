@@ -229,51 +229,65 @@ function CosmoScope() {
 };
 
 const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    setError("");
+    e.preventDefault();
 
-    if (!form.objectName.trim()) {
-      setError("Please enter the object name.");
-      return;
+
+
+    try {
+
+      setError("");
+
+
+
+      await createObservation(form);
+
+
+
+      setForm({
+
+  objectName: "",
+
+  objectType: "Planet",
+
+  observationDate: "",
+
+  location: "",
+
+  notes: "",
+
+  visibility: "Good",
+
+  photo: "",
+
+});
+
+
+
+      setShowForm(false);
+
+
+
+      await loadMyObservations();
+
+      await loadPublicObservations();
+
+    } catch (error) {
+
+      console.error(error);
+
+
+
+      setError(
+
+        error.message || "Unable to create observation."
+
+      );
+
     }
 
-    if (!form.observationDate) {
-      setError("Please select the observation date.");
-      return;
-    }
+  };
 
-    if (!form.location.trim()) {
-      setError("Please enter the observation location.");
-      return;
-    }
-
-    await createObservation(form);
-
-    setForm({
-      objectName: "",
-      objectType: "Planet",
-      observationDate: "",
-      location: "",
-      notes: "",
-      visibility: "Good",
-      photo: "",
-    });
-
-    setShowForm(false);
-
-    await loadMyObservations();
-    await loadPublicObservations();
-
-  } catch (error) {
-    console.error("Create observation error:", error);
-
-    setError(
-      error.message || "Unable to create observation."
-    );
-  }
-};
 
 
   const handleDelete = async (id) => {
@@ -1807,13 +1821,24 @@ const handleSubmit = async (e) => {
 
 
               <button
-  type="button"
-  onClick={handleSubmit}
-  className="flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3.5 font-semibold text-slate-950 transition hover:bg-slate-100"
->
-  <Telescope size={18} />
-  Save observation
-</button>
+
+                type="submit"
+
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3.5 font-semibold text-slate-950 transition hover:bg-slate-100"
+
+              >
+
+
+
+                <Telescope size={18} />
+
+
+
+                Save observation
+
+
+
+              </button>
 
 
 

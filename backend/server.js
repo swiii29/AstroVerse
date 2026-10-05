@@ -1,77 +1,95 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
-require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
-const celestialObjectRoutes = require("./routes/celestialObjectRoutes");
+const celestialRoutes = require("./routes/celestialRoutes");
 const observationRoutes = require("./routes/observationRoutes");
-const lunarBaseRoutes = require("./routes/lunarBaseRoutes");
 const missionRoutes = require("./routes/missionRoutes");
+const lunarBaseRoutes = require("./routes/lunarBaseRoutes");
+
+dotenv.config();
 
 const app = express();
 
-// --------------------
-// Middleware
-// --------------------
-app.use(cors());
-app.use(express.json());
+// ================================
+// DATABASE
+// ================================
 
-// --------------------
-// API Routes
-// --------------------
-app.use("/api/celestial-objects", celestialObjectRoutes);
-app.use("/api/observations", observationRoutes);
-app.use("/api/lunar-bases", lunarBaseRoutes);
-app.use("/api/missions", missionRoutes);
-app.use("/api/auth", authRoutes);
-// --------------------
-// Basic Routes
-// --------------------
-app.get("/", (req, res) => {
-  res.json({
-    message: "AstroVerse API is running 🚀",
-    status: "online",
-  });
-});
+connectDB();
+
+// ================================
+// MIDDLEWARE
+// ================================
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Allow Base64 observation photos
+app.use(express.json({ limit: "8mb" }));
+app.use(express.urlencoded({ extended: true, limit: "8mb" }));
+
+// ================================
+// HEALTH CHECK
+// ================================
 
 app.get("/api/health", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "AstroVerse backend is healthy",
   });
 });
 
-// --------------------
-// MongoDB Connection
-// --------------------
-const connectDB = async () => {
-  try {
-   await mongoose.connect(process.env.MONGO_URI, {
-  dbName: "AstroVerse",
-  family: 4,
-  tls: true,
+// ================================
+// API ROUTES
+// ================================
+
+app.use("/api/auth", authRoutes);
+
+app.use("/api/celestial-objects", celestialRoutes);
+
+app.use("/api/observations", observationRoutes);
+
+app.use("/api/missions", missionRoutes);
+
+app.use("/api/lunar-bases", lunarBaseRoutes);
+
+// ================================
+// 404 HANDLER
+// ================================
+
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.method} ${req.originalUrl}`,
+  });
 });
 
-    console.log("✅ MongoDB connected successfully");
-  } catch (error) {
-    console.error("❌ MongoDB connection failed:");
-    console.error(error.message);
-    process.exit(1);
-  }
-};
+// ================================
+// ERROR HANDLER
+// ================================
 
-// --------------------
-// Start Server
-// --------------------
-const startServer = async () => {
-  await connectDB();
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
 
-  const PORT = process.env.PORT || 5001;
-
-  app.listen(PORT, () => {
-    console.log(`🚀 AstroVerse backend running on port ${PORT}`);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal server error",
   });
-};
+});
 
-startServer();
+// ================================
+// START SERVER
+// ================================
+
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(`AstroVerse backend running on port ${PORT}`);
+});

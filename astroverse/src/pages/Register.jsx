@@ -39,7 +39,7 @@ function Register() {
       setSuccess(false);
 
       const response = await fetch(
-        "http://localhost:5001/api/auth/register",
+        "https://astroverse-9h7i.onrender.com/api/auth/register",
         {
           method: "POST",
           headers: {

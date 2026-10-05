@@ -43,6 +43,12 @@ const observationSchema = new mongoose.Schema(
       default: "Good",
     },
 
+    // Uploaded observation photo
+    photo: {
+      type: String,
+      default: "",
+    },
+
     isPublic: {
       type: Boolean,
       default: true,
